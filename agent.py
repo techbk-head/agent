@@ -10,6 +10,7 @@ class manager_pcap_file:
     def __init__(self,client):
         self.__client == client
 
+
     @asyncio.coroutine
     def send_file_pcap(self,f):
         data = FormData()
@@ -21,6 +22,7 @@ class manager_pcap_file:
 
     def __newfile(self):
         #check new file
+
         return True
 
     @asyncio.coroutine
