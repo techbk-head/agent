@@ -1,29 +1,40 @@
 __author__ = 'techbk'
 
-__author__ = 'techbk'
-
-import pcap, dpkt
+import pcap, dpkt, time
 
 
 def process( ts, pkt , pcw):
-    #eth = dpkt.ethernet.Ethernet(pkt)
-    #ip = eth.data
-    #if ip.__class__==dpkt.ip.IP:
-        #global count
-        #count += 1
-        #src_ip = socket.inet_ntoa(ip.src)
-        #dst_ip = socket.inet_ntoa(ip.dst)
-        #print 'Packet #%d, %s=>%s, length %d, proto: %d' % (count, src_ip, dst_ip, ip.len, ip.p)
-        # Save packet to file...
+    print pkt
+
     pcw.writepkt(pkt,ts)
 
+def loop(pc, ti):
+
+    #filename = time.strftime("%Y%m%d-%H%M%S")+'.pcap'
+    filename = str(ti)+'.pcap'
+    pcw = dpkt.pcap.Writer(open(filename,'wb'))
+
+    for ts, pkt in pc:
+        t = time.time()
+        if t - ti >= 30:
+            pcw.close()
+            #filename = time.strftime("%Y%m%d-%H%M%S")+'.pcap'
+            filename = str(t)+'.pcap'
+            pcw = dpkt.pcap.Writer(open(filename,'wb'))
+            pcw.writepkt(pkt,ts)
+            ti = t
+            continue
+        pcw.writepkt(pkt,ts)
+
 if __name__ == "__main__":
-    pc = pcap.pcap()
+
+
     #count =0
     #Pcap writer
-    pcw = dpkt.pcap.Writer(open('pkts.pcap','wb'))
+
     try:
-        pc.loop(process, pcw)
+        pc = pcap.pcap()
+
+        loop(pc, time.time())
     except KeyboardInterrupt:
         print pc.stats()
-        pcw.close()

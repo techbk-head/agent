@@ -19,8 +19,8 @@ __author__ = 'techbk'
 
 from htmlclient import HTTPClient
 
-HORIZON_URL = 'http://192.168.145.131/admin/'
-#HORIZON_URL = 'http://httpbin.org/headers'
+#HORIZON_URL = 'http://192.168.145.131/admin/'
+HORIZON_URL = 'http://httpbin.org/headers'
 AUTH_URL = "http://192.168.145.131:5000/v2.0"
 
 class Client(object):
