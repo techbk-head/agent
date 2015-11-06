@@ -1,14 +1,15 @@
 __author__ = 'techbk'
 
-import pcap
+import pcap as pCap
 import dpkt
 import time
 
+PCAP_PATH = 'pcap/'
 
 class ManagerPcap(object):
 
-    def __init__(self, time_limited = 60):
-        self._pc = pcap.pcap()
+    def __init__(self, time_limited = 30):
+        self._pc = pCap.pcap()
         self._time_limited = time_limited
 
     def loop(self, ti=None, time_limited = None):
@@ -27,7 +28,7 @@ class ManagerPcap(object):
                     pcw.close()
                     #filename = time.strftime("%Y%m%d-%H%M%S")+'.pcap'
                     filename = _filename(t)
-                    pcw = dpkt.pcap.Writer(open(filename,'wb'))
+                    pcw = dpkt.pCap.Writer(open(filename,'wb'))
                     pcw.writepkt(pkt,ts)
                     ti = t
                     continue
@@ -37,7 +38,7 @@ class ManagerPcap(object):
 
 def _filename(t):
 
-    return str(int(t))+'.pcap'
+    return PCAP_PATH+str(int(t))+'.pcap'
 if __name__ == "__main__":
     manager_pcap = ManagerPcap()
     manager_pcap.loop()

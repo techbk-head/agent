@@ -20,7 +20,7 @@ __author__ = 'techbk'
 from htmlclient import HTTPClient
 
 #HORIZON_URL = 'http://192.168.145.131/admin/'
-HORIZON_URL = 'http://httpbin.org/headers'
+HORIZON_URL = 'http://httpbin.org'
 AUTH_URL = "http://192.168.145.131:5000/v2.0"
 
 class Client(object):
@@ -103,6 +103,6 @@ def _get_keystone_client(auth_url):
 
 if __name__ == "__main__":
     client = Client(username='admin', api_key='baogavn' ,auth_url=AUTH_URL, project_name='admin')
-    r = client.http_client.getHeader()
+    r = client.http_client.get('/headers')
     print r.headers
     print r.text
