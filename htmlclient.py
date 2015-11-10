@@ -56,11 +56,11 @@ class HTTPClient(object):
 
         return headers
 
-class HttpClient(HTTPClient):
+class My_HttpClient(HTTPClient):
 
-    def post_file(self, url, headers=None, file = None):
+    def post_file(self, url, headers=None, files = None):
         headers = self._update_headers(headers)
-        return requests.post(self.base_url + url, headers=headers, file = file)
+        return requests.post(self.base_url + url, headers=headers, files = files)
 
 
 if __name__ == "__main__":

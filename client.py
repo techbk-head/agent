@@ -17,11 +17,13 @@ __author__ = 'techbk'
 
 #import six
 
-from htmlclient import HTTPClient
+from htmlclient import My_HttpClient
 
 #HORIZON_URL = 'http://192.168.145.131/admin/'
-HORIZON_URL = 'http://httpbin.org'
+#HORIZON_URL = 'http://httpbin.org'
+HORIZON_URL = 'http://0.0.0.0:8877'
 AUTH_URL = "http://192.168.145.131:5000/v2.0"
+
 
 class Client(object):
     def __init__(self, horizon_url=None, username=None, api_key=None,
@@ -42,7 +44,7 @@ class Client(object):
         if not horizon_url:
             horizon_url = HORIZON_URL
 
-        self.http_client = HTTPClient(horizon_url,
+        self.http_client = My_HttpClient(horizon_url,
                                                  auth_token,
                                                  project_id,
                                                  user_id)
@@ -88,7 +90,7 @@ class Client(object):
                 #service = catalog.get(service_type)
                 #horizon_url = service[0].get(
                     #endpoint_type) if service else None
-
+        print token
         return token, project_id, user_id
 
 
@@ -103,6 +105,12 @@ def _get_keystone_client(auth_url):
 
 if __name__ == "__main__":
     client = Client(username='admin', api_key='baogavn' ,auth_url=AUTH_URL, project_name='admin')
-    r = client.http_client.get('/headers')
-    print r.headers
+    #r = client.http_client.get('/headers')
+    files = {'file': open('pcap/a.pcap', 'rb')}
+    #r = client.http_client.post_file(url='/techbk_head/list/',files=files)
+    r = client.http_client.get(url='/techbk_head/list/')
+
     print r.text
+    print r.headers
+    print r.url
+    print r.status_code

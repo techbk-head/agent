@@ -23,14 +23,14 @@ class ManagerPcap(object):
             pcw = dpkt.pcap.Writer(open(filename,'wb'))
 
             for ts, pkt in self._pc:
-                t = time.time()
-                if t - ti >= time_limited:
+                #t = time.time()
+                if ts - ti >= time_limited:
                     pcw.close()
                     #filename = time.strftime("%Y%m%d-%H%M%S")+'.pcap'
-                    filename = _filename(t)
+                    filename = _filename(ts)
                     pcw = dpkt.pCap.Writer(open(filename,'wb'))
                     pcw.writepkt(pkt,ts)
-                    ti = t
+                    ti = ts
                     continue
                 pcw.writepkt(pkt,ts)
         except KeyboardInterrupt:
