@@ -37,8 +37,9 @@ class ManagerPcap(object):
             print self._pc.stats()
 
 def _filename(t):
-
     return PCAP_PATH+str(int(t))+'.pcap'
+
+
 if __name__ == "__main__":
     manager_pcap = ManagerPcap()
     manager_pcap.loop()

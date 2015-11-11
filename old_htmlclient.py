@@ -79,8 +79,8 @@ class HTTPClient(object):
         return headers
 
 if __name__ == "__main__":
-    import client
-    http_client = HTTPClient(client.HORIZON_URL)
+    import old_client
+    http_client = HTTPClient(old_client.HORIZON_URL)
     r = http_client.post('/post')
     print r.headers
     print r.text
