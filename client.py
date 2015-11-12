@@ -13,13 +13,13 @@ class HTTPClient(object):
     def __init__(self, base_url):
         self.base_url = base_url
 
-    def post(self, url, data=None, headers=None, files = None):
+    def post(self, url, data=None, headers=None, files = None, json = None):
         #headers = self._update_headers(headers)
         if headers:
-            content_type = headers.get('content-type', 'application/json')
+            content_type = headers.get('content-type', 'application/json; charset=utf-8')
             headers['content-type'] = content_type
 
-        return requests.post(self.base_url + url, data=data, headers=headers, files = files)
+        return requests.post(self.base_url + url, data=data, headers=headers, files = files, json = json)
 
 
 
@@ -47,16 +47,17 @@ class Client(object):
             if not data:
                 data = self._data
                 print(data)
-        data = json.dumps(data)
-        print(data)
+        #data = json.dumps(data)
+        #print(data)
         #resp = self.client.http_client.post(url, data)
         files = {'file':( 'a.pcap',open('pcap/a.pcap', 'rb'), 'application/json')}
-        return self.http_client.post(url='/pcap', data = data , files=files)
+        return self.http_client.post(url='/pcap', files=files, json = data)
 
 
 if __name__ == "__main__":
     client = Client()
     r = client.loop()
+    print "################"
     print r.text
     print r.headers
     print r.url
