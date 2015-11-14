@@ -17,7 +17,7 @@ class HTTPClient(object):
         #headers = self._update_headers(headers)
         if headers:
             content_type = headers.get('content-type', 'application/json; charset=utf-8')
-            headers['content-type'] = content_type
+            headers['content-type'] = content_type #+ 'application/json; charset=utf-8'
 
         return requests.post(self.base_url + url, data=data, headers=headers, files = files, json = json)
 
@@ -43,15 +43,15 @@ class Client(object):
                 return self._send_file(data)
 
     def _send_file(self,data):
-        if self._dump_json:
-            if not data:
-                data = self._data
-                print(data)
+        #if self._dump_json:
+        if not data:
+            data = self._data
+            print(data)
         #data = json.dumps(data)
         #print(data)
         #resp = self.client.http_client.post(url, data)
         files = {'file':( 'a.pcap',open('pcap/a.pcap', 'rb'), 'application/json')}
-        return self.http_client.post(url='/pcap', files=files, json = data)
+        return self.http_client.post(url='/pcap', files=files, data = data)
 
 
 if __name__ == "__main__":
