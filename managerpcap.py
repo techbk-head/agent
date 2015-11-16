@@ -3,7 +3,7 @@ __author__ = 'techbk'
 import pcap as pCap
 import dpkt
 import time
-
+import info
 PCAP_PATH = 'pcap/'
 
 class ManagerPcap(object):
@@ -11,6 +11,12 @@ class ManagerPcap(object):
     def __init__(self, time_limited = 30):
         self._pc = pCap.pcap()
         self._time_limited = time_limited
+
+
+
+        with open(directory+'info','r') as outfile:
+            print(json.load(outfile))
+            outfile.close()
 
     def loop(self, ti=None, time_limited = None):
         try:
@@ -26,6 +32,11 @@ class ManagerPcap(object):
                 #t = time.time()
                 if ts - ti >= time_limited:
                     pcw.close()
+                    # add info
+                    info.handle_file_info()
+
+
+
                     #filename = time.strftime("%Y%m%d-%H%M%S")+'.pcap'
                     filename = _filename(ts)
                     pcw = dpkt.pCap.Writer(open(filename,'wb'))
