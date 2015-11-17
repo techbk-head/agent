@@ -5,7 +5,7 @@ __author__ = 'techbk'
 
 import requests
 import config
-import json
+#import json
 
 
 
@@ -25,8 +25,8 @@ class HTTPClient(object):
 
 
 class Client(object):
-    def __init__(self, base_url=None,data=None,dump_json=True):
-
+    def __init__(self,q , base_url=None,data=None,dump_json=True):
+        self._queue = q
         if not base_url:
             base_url = config.SERVICE_URL
 
@@ -38,19 +38,20 @@ class Client(object):
         self.http_client = HTTPClient(base_url)
 
     def loop(self,data=None):
-        #while True:
-            #if self._has_new_file():
-                return self._send_file(data)
+        while True:
+            if not self._queue.empty():
+                filename = self._queue.get()
+                self._send_file(filename, data)
 
-    def _send_file(self,data):
-        #if self._dump_json:
+    def _send_file(self,filename, data):
+
         if not data:
             data = self._data
-            print(data)
-        #data = json.dumps(data)
-        #print(data)
-        #resp = self.client.http_client.post(url, data)
-        files = {'file':( 'a.pcap',open('pcap/a.pcap', 'rb'), 'application/json')}
+        print filename
+        name = filename[5:]
+        print name
+
+        files = {'file':( name ,open(filename, 'rb'), 'application/json')}
         return self.http_client.post(url='/pcap', files=files, data = data)
 
 
